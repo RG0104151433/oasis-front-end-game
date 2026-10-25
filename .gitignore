@@ -1,0 +1,67 @@
+# ---------- OS / 编辑器 ----------
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# ---------- Node / 前端工具链 ----------
+# 本项目目前是无构建的纯静态页面；一旦引入 Vite / 打包器，这些目录会自动被忽略
+node_modules/
+.pnpm-store/
+.yarn/
+dist/
+dist-ssr/
+.vite/
+.cache/
+coverage/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.local
+
+# ---------- Python（校验收据脚本用） ----------
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ---------- AI / 协作工具的本地缓存 ----------
+.dumate/
+.opencode/
+.claude/
+.cursor/
+qianfan/
+*.session.json
+
+# ---------- 备份 / 压缩包 / 临时产物 ----------
+# 工程本体不靠 zip 存版本；大备份放仓库外
+*.zip
+*.7z
+*.rar
+*.bak
+*.orig
+*.tmp
+*.log
+~$*
+*.canvas.tsx.bak
+
+# ---------- 存档与导出的本地数据 ----------
+# 游戏进度存在浏览器 localStorage，不在仓库里；
+# 手动导出的存档 / 截图默认不入库，需要共享时再单独放 docs/samples/
+saves/
+exports/
+screenshots/
+
+# ---------- 注意 ----------
+# 下列目录必须保留（属于游戏素材与工程本体），不要加入忽略：
+#   image/            # 背景与平台部件素材（约 31 MB）
+#   css/  js/         # 源码
+#   剧情和设计文档/    # 2.0 剧本与数据契约

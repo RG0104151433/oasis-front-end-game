@@ -99,6 +99,40 @@ npx serve 小学期网页开发
 
 建议第一步先补齐 `util.js` / `store.js` / `shell.js` / `settings.js` 让外壳能跑，再逐步替换 `story_config.js`。
 
+### 4.2 素材与代码不是同一代（不阻断，但画面会退化）
+
+`image/` 目录与代码对不上：
+
+| 项 | 数量 | 说明 |
+| --- | ---: | --- |
+| 代码引用到的 `image/` 路径（js 34 + css 14，去重） | 45 | — |
+| 其中实际存在的 | 5 | 只有 `art3mis_pixel.png`、`archive_frame_1~3.png` 等少数几张 |
+| 引用但缺失的 | **40** | 见下表 |
+| 目录里现有位图 | 23 | 另有 `platform_parts_512/` 8 个部件 |
+| 其中没被任何代码引用 | 18 | `bg_archive_*`、`bg_dawn`、`bg_cyberspace_oasis_v1`、各 `.webp` 版等 |
+
+引用但缺失的 40 张（按用途）：
+
+- **背景（12）**：`bg_menu`、`bg_room`、`bg_reality_city`、`bg_starfield`、`bg_race_start_light1~3`、`bg_race_to_archive_transition`、`ending_void_bg`、`data_vortex`、`opening_oasis_ad`、`opening_slum_night`
+- **CG（3）**：`cg_ending_inherit.jpg`、`cg_halliday_sea.jpg`、`cg_roof_seed`
+- **角色（9）**：`player`、`player_big_idle`、`player_big_walk_1/2`、`player_front_id`、`halliday`、`nolan`、`moro_avatar_front`、`monster`
+- **地块 / 危险物（6）**：`floor_xxx`、`hazard_oasis_pit_1/2`、`hazard_red_fog_1_a/b/c`
+- **平台（5）**：`platform_oasis_gantry_2/3`、`platform_oasis_road_2/3`、`platform_tileset_oasis_2048x1024`
+- **小游戏（3）**：`mg_archive_validation_room`、`mg_data_reassembly`、`mg_gold_room`
+- **道具（2）**：`sprite_index_book_closed/opened`
+
+影响与处理：
+
+- `js/engine/image-gate.js` 对每张图都挂了 `onerror`，失败只弹一次“资源加载失败”提示，不阻塞流程；绘制侧有 Canvas 程序化兜底（角色、地块、平台都能画），所以**能跑，只是缺立绘/背景/CG**。
+- 结论：这批 `image/` 是较新的一代（档案室、记忆井、阳台等场景），而 js/css 里仍留着早期素材名——**代码与素材是两次快照的混合**，不是搬丢的。
+- 补齐方式二选一：从旧备份取回同名素材；或改代码把引用指向现有新图（`bg_home_stacks_v2.webp`、`bg_corridor_oasis_v1.png` 等 18 张未使用的新图正好是候选）。
+
+### 4.3 完整性核对结论
+
+- `小学期网页开发/`：100 个文件（`index.html` + css 4 + js 64 + image 31），与迁出前逐一致。
+- `网页游戏开发2.0/`：23 个文件（剧本 3 份 + 待审查的落码文档 20 份），第三方绘图技能包已移除（备份见 §8）。
+- 缺的都是**原本就没提交进 git** 的脚本与素材，不是搬迁遗漏；可用 `git log`/`git show` 在 grade-2-at-ruixin 历史里追溯到 2026-10-25 的迁出前状态。
+
 ---
 
 ## 5. 代码组织约定（改造时别踩）
